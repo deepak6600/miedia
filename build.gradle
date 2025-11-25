@@ -6,10 +6,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Android Gradle Plugin ko update kiya gaya hai (SDK 34 support ke liye)
+        // Android Gradle Plugin updated to stable version 8.2.0
         classpath 'com.android.tools.build:gradle:8.13.1'
 
-        // Google Services plugin update
+        // Google Services plugin
         classpath 'com.google.gms:google-services:4.4.4'
     }
 }
@@ -18,15 +18,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // jcenter() ab deprecated ho chuka hai, isliye hata diya gaya hai.
-        // Agar koi purani library fail hoti hai to hi ise wapis layein.
-
-        flatDir {
-            dirs 'libs'
-        }
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
