@@ -1,56 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pro.image.video_compressor_hd"
-    android:extractNativeLibs="false">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Android 13+ ke liye notification permission (Optional, status dikhane ke liye) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Internet sirf privacy policy ya ads ke liye -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.pro.image.video_compressor_hd.spl">
+        android:theme="@style/Theme.MediaCompressor"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MediaCompressor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pro.image.video_compressor_hd.MainActivity">
 
-        </activity>
-        <activity
-            android:name="com.pro.image.video_compressor_hd.CompressPicActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.Dialog" />
-        <activity
-            android:name="com.pro.image.video_compressor_hd.VideoActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- File share karne ke liye provider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
-        <service
-            android:name="com.pro.image.video_compressor_hd.services.CameraActionHandlerService"
-            android:process=":compressService" />
-        <service android:name="com.pro.image.video_compressor_hd.services.CompressService" />
-
-        <receiver
-            android:name="com.pro.image.video_compressor_hd.receivers.CameraActionReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.hardware.action.NEW_PICTURE" />
-                <action android:name="android.hardware.action.NEW_VIDEO" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

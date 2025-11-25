@@ -2,29 +2,27 @@
 
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         google()
+        mavenCentral()
     }
     dependencies {
-        //noinspection GradlePluginVersion
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        // Android Gradle Plugin ko update kiya gaya hai (SDK 34 support ke liye)
+        classpath 'com.android.tools.build:gradle:8.13.1'
+
+        // Google Services plugin update
         classpath 'com.google.gms:google-services:4.4.4'
     }
 }
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
-        flatDir{
+        // jcenter() ab deprecated ho chuka hai, isliye hata diya gaya hai.
+        // Agar koi purani library fail hoti hai to hi ise wapis layein.
+
+        flatDir {
             dirs 'libs'
-        }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
         }
     }
 }
